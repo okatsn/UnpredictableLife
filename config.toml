@@ -1,5 +1,5 @@
 baseURL = "/"
-title = "Goldydocs"
+title = "Unpredictable Life" # also change the title under [languages][languages.en]
 
 enableRobotsTXT = true
 
@@ -53,26 +53,26 @@ id = "UA-00000000-0"
 
 [languages]
 [languages.en]
-title = "Goldydocs"
-description = "A Docsy example site"
+title = "My Learning Journey"
+description = "A site for my works and notes."
 languageName ="English"
 # Weight used for sorting.
 weight = 1
-[languages.no]
-title = "Goldydocs"
-description = "Docsy er operativsystem for skyen"
-languageName ="Norsk"
-contentDir = "content/no"
-time_format_default = "02.01.2006"
-time_format_blog = "02.01.2006"
+# [languages.no]
+# title = "Goldydocs"
+# description = "Docsy er operativsystem for skyen"
+# languageName ="Norsk"
+# contentDir = "content/no"
+# time_format_default = "02.01.2006"
+# time_format_blog = "02.01.2006"
 
-[languages.fa]
-title = "اسناد گلدی"
-description = "یک نمونه برای پوسته داکسی"
-languageName ="فارسی"
-contentDir = "content/fa"
-time_format_default = "2006.01.02"
-time_format_blog = "2006.01.02"
+[[menu.main]]
+    name = "CGRG"
+    weight = 100
+    url = "https://github.com/CGRG-lab"
+    pre = "<i class='fab fa-github'></i>"
+    post = "<span class='alert'>New!</span>" 
+    
 
 [markup]
   [markup.goldmark]
@@ -91,8 +91,12 @@ time_format_blog = "2006.01.02"
 section = ["HTML", "print"]
 
 [params]
-copyright = "The Docsy Authors"
+copyright = "Tsung-Hsi, Wu"
 privacy_policy = "https://policies.google.com/privacy"
+
+
+
+
 
 # First one is picked as the Twitter card image if not set on page.
 # images = ["images/project-illustration.png"]
@@ -142,7 +146,7 @@ prism_syntax_highlighting = false
 # User interface configuration
 [params.ui]
 # Enable to show the side bar menu in its compact state.
-sidebar_menu_compact = false
+sidebar_menu_compact = true # if you feel left nav too long, set it true.
 #  Set to true to disable breadcrumb navigation.
 breadcrumb_disable = false
 #  Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
@@ -151,6 +155,7 @@ sidebar_search_disable = false
 navbar_logo = true
 # Set to true to disable the About link in the site footer
 footer_about_disable = false
+
 
 # Adds a H2 section titled "Feedback" to the bottom of each doc. The responses are sent to Google Analytics as events.
 # This feature depends on [services.googleAnalytics] and will be disabled if "services.googleAnalytics.id" is not set.
@@ -175,20 +180,20 @@ enable = false
 	url = "https://example.org/mail"
 	icon = "fa fa-envelope"
         desc = "Discussion and help from your fellow users"
-[[params.links.user]]
-	name ="Twitter"
-	url = "https://example.org/twitter"
-	icon = "fab fa-twitter"
-        desc = "Follow us on Twitter to get the latest news!"
-[[params.links.user]]
-	name = "Stack Overflow"
-	url = "https://example.org/stack"
-	icon = "fab fa-stack-overflow"
-        desc = "Practical questions and curated answers"
+# [[params.links.user]]
+# 	name ="Twitter"
+# 	url = "https://example.org/twitter"
+# 	icon = "fab fa-twitter"
+#         desc = "Follow us on Twitter to get the latest news!"
+# [[params.links.user]]
+# 	name = "Stack Overflow"
+# 	url = "https://example.org/stack"
+# 	icon = "fab fa-stack-overflow"
+#         desc = "Practical questions and curated answers"
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
 	name = "GitHub"
-	url = "https://github.com/google/docsy"
+	url = "https://github.com/okatsn"
 	icon = "fab fa-github"
         desc = "Development takes place here!"
 [[params.links.developer]]
@@ -196,9 +201,9 @@ enable = false
 	url = "https://example.org/slack"
 	icon = "fab fa-slack"
         desc = "Chat with other project developers"
-[[params.links.developer]]
-	name = "Developer mailing list"
-	url = "https://example.org/mail"
-	icon = "fa fa-envelope"
-        desc = "Discuss development issues around the project"
+# [[params.links.developer]]
+# 	name = "Developer mailing list"
+# 	url = "https://example.org/mail"
+# 	icon = "fa fa-envelope"
+#         desc = "Discuss development issues around the project"
 
