@@ -251,6 +251,8 @@ Ref: [the docsy theme](https://www.docsy.dev/docs/getting-started/)
 > - If you start with option 2 (clone the `docsy-example`), the `hugo new posts/_index.md` now creates the file under `/content/en/posts/_index.md` (`en` is for English), since this example provides several language version of websites. **See** the `contentDir = "content/en"` in the `config.toml`.
 > - **I strongly recommend optional 2, it is much easier.**
 
+
+
 #### `config.toml`
 
 Open the `config.toml` of the `docsy-example`, and
@@ -289,9 +291,9 @@ Specified in the front matter,
 - `linkTitle` specify the string to show on the menu 
 
 #### Layout
-Docsy provides three page template, **blog**, **docs** and **community**. They are placed in `themes\docsy\layouts\`. 
+Docsy provides three page template, **blog**, **docs** and **community**. They are placed in `themes/docsy/layouts/`. 
 
-It is easy to apply a template, just copy the entire folder and rename it. For example, when you create a tree of pages in `content\en\whatever\`, and you want to apply the "Documentation" template, just copy `\themes\docsy\layouts\docs` to `whatever` to `\layouts\docs` and rename it as `\layouts\whatever`.
+It is easy to apply a template, just **copy the entire folder and rename it**. For example, when you create a tree of pages in `content/en/whatever/`, and you want to apply the "Documentation" template, just copy `/themes/docsy/layouts/docs` to `whatever` to `/layouts/docs` and rename it as `/layouts/whatever`.
 
 Alternatively, you can also specify the layout in the front matter, for example, for the pages under `content/en/whatever`, by adding
 ```
@@ -301,13 +303,16 @@ cascade:
 in the front matter of `content/en/whatever/_index.md`. This is equivalent to have `layouts/docs` copied and renamed as `layouts/whatever`.
 For more advanced control, see [alternative-site-structure](https://www.docsy.dev/docs/adding-content/content/#alternative-site-structure).
 
-TODO: This approach failed when published with netlify
-  - I've tried moving `docs-s` to `themes/docsy/layouts/`; however, changes under themes cannot be staged.; however, 
-  - Then I tired committing to the repo `Docsy`. It is useless. 
+> **⛏️Trouble shooting**: When you adapt the alternative site structurization, and the site is rendered properly on local but broken on the deployed netlify website, check the hugo-building version. The alternative site structure is supported only for hugo version $\geq$ 0.77 ([see this](https://github.com/gwatts/mostlydocs/)).
+
+
+> ☠️ Don't modify anything under `themes/docsy`
+> - If you want to change anything, copy it (with exactly the same directory structure) to the root `docsy-example` (or your folder renamed from it).
+> - For example, copy `/themes/docsy/layouts` to `/layouts` and then have some modifications on files in `/layouts`.
 
 
 ##### disable feedback
-go to `layouts/docs/list.html` and delete the following lines:
+Go to `/layouts/docs/list.html` and delete the following lines:
 ```
 {{ if (and (not .Params.hide_feedback) (.Site.Params.ui.feedback.enable) (.Site.GoogleAnalytics)) }}
 {{ partial "feedback.html" .Site.Params.ui.feedback }}
@@ -315,9 +320,17 @@ go to `layouts/docs/list.html` and delete the following lines:
 {{ end }}
 ```
 
+##### Modify Footer or Anything of the Template
+If you want to modify the text and hyperlinks shown in the footer, you might think to go to `layouts/partials/footer.html`. Disappointedly, you see only variable names (e.g. `.Site.Params.privacy_policy`) there. 
+To change the text/hyperlinks, you have to find where the variable locates.
+As an example, you can follow the following instruction:
+- 🔎**Search** "privacy_policy", and you will find `[param][privacy_policy] = "https://..."` in `themes/docsy/config.toml` and `[footer_privacy_policy]other = "Privacy Policy"` in `themes/docsy/i18n/en.toml`
+- 🗒️**Copy or modify** the `[privacy_policy]` line in `/config.toml`, create the folder `i18n` and copy `themes/docsy/i18n/en.toml` there and modify the `[footer_privacy_policy]` section.
+
+
 #### The home page
-The home page locates at `\content\en\_index.html`, it takes `\layouts\_default`.
-> 💡 The "About" section takes also `\layouts\_default`; however, you may apply a template by copying and renaming page template folder to `about`.
+The home page locates at `/content/en/_index.html`, it takes `/layouts/_default`.
+> 💡 The "About" section takes also `/layouts/_default`; however, you may apply a template by copying and renaming page template folder to `about`.
 
 #### Deploy
 Link to Github repository
@@ -348,7 +361,7 @@ Choose one:
 
   # "production" environment specific build settings
   [build.environment]
-    HUGO_VERSION = "0.76.5"
+    HUGO_VERSION = "0.77.0"
     HUGO_THEME = "docsy"
     HUGO_ENV = "production"
   ```
