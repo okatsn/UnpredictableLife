@@ -53,7 +53,7 @@ id = "UA-00000000-0"
 
 [languages]
 [languages.en]
-title = "My Learning Journey"
+title = "Unpredictble Life"
 description = "A site for my works and notes."
 languageName ="English"
 # Weight used for sorting.
@@ -92,7 +92,7 @@ section = ["HTML", "print"]
 
 [params]
 copyright = "Tsung-Hsi, Wu"
-privacy_policy = "https://policies.google.com/privacy"
+privacy_policy = "https://creativecommons.org/licenses/by-sa/3.0/tw/"
 
 
 

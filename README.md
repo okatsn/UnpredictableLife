@@ -1,13 +1,19 @@
 # Hint
-- git clone https://github.com/google/docsy-example.git
-- cd docsy-example
-- git submodule update --init --recursive
+- `git clone https://github.com/google/docsy-example.git`
+- `cd docsy-example`
+- `git submodule update --init --recursive`
 - Copy `config.toml` and `netlify.toml`.
-- copy all the files from `layouts` to `layouts`
-- Create a new Github repository. see this.
-- cd docsy-example, and git remote set-url origin https://github.com/youraccount/YourRepoJustCreated.git
-- git remote -v
-- git push -u origin master
+- Copy all the files from `layouts` to `layouts`.
+- Create a new Github repository.
+- `cd docsy-example`, and `git remote set-url origin https://github.com/youraccount/YourRepoJustCreated.git`
+- `git remote -v`
+- `git push -u origin master`
+
+## Version control
+To avoid the 100MB limit of the trackable files, I've created another repo ("TheNotebook") for version control of the content of my note (mostly pure text) under `content/en`, with `about` and `my-project` excluded. 
+Therefore, I should
+- Add `content/en/.git` and `content/en/.gitignore` to `.gitignore`
+- Do version control in the repo of "TheNotebook", and just simply stage all changes, commit, and push in the repo for the site.
 
 # Docsy Example
 [Docsy](https://github.com/google/docsy) is a Hugo theme for technical documentation sites, providing easy site navigation, structure, and more. This **Docsy Example Project** uses the Docsy theme, as well as providing a skeleton documentation structure for you to use. You can either copy this project and edit it with your own content, or use the theme in your projects like any other [Hugo theme](https://gohugo.io/themes/installing-and-using-themes/).

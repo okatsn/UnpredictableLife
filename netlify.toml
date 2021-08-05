@@ -8,6 +8,6 @@ command = "cd themes/docsy && git submodule update -f --init && cd ../.. && hugo
 
 # "production" environment specific build settings
 [build.environment]
-HUGO_VERSION = "0.76.5"
+HUGO_VERSION = "0.77.0"
 HUGO_THEME = "docsy"
 HUGO_ENV = "production"
