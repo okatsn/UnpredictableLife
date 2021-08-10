@@ -52,10 +52,7 @@ $ git push --set-upstream origin master
 > - If you create and publish your repository on your local machine such as Github Desktop or vscode with GitLens, just `git push` instead of `git push --set-upstream origin master`.
 > 
 > **💩Explanation**:
-> - `git init`: initiate the current directory as a git repository
-> - `git remote add origin`: create a remote named `origin`; a connection between local and remote is established
-> - `git add -A`: make every file to be tracked and stage all changes (i.e., make all of them ready to be committed)
-> - `git commit -am "whatever message is OK"`: stage all changes of tracked files and commit; untracked files won't be committed.
+> - See [Notes/Git](../../git).
 
 Now, go to your repository (e.g., `https://github.com/okatsn/My1stSite`) > `Settings` > `Pages` > select the branch "gh-pages" and click on `Save`.
 > **💡Hint**:

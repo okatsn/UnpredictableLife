@@ -1,7 +1,9 @@
 ---
 author: "CGRG"
+doctype: "hugo"
 title: "MagTIP (2021) Documentation"
-date: "2021-07-31"
+date: "2021-08-05"
+out_path: "_index.md"
 linkTitle: "MagTIP"
 menu: "main"
 ---
@@ -17,7 +19,7 @@ menu: "main"
 
 MagTIP calculates the TIP (Time of Increased Probability) of earthquakes basing on the geomagnetic records of Central Weather Bureau of Taiwan. 
 The algorithm allows for the optimization of the model parameters, and gives the overall TIP (named joint-station TIP). 
-The probability of capturing a target event in space and time can be derived based on the joint-staion TIP, by considering the results from a large set of randomly permuted of model parameters simultaneously.
+The probability of capturing a target event in space and time can be derived based on the joint-station TIP, by considering the results from a large set of randomly permuted of model parameters simultaneously.
 
 In the traditional TIP forecasting, the type and the number of input data have to be uniquely formatted otherwise re-training according to the new format is required. 
 As a result, either the conversion for fitting new data to old format (where some information must lose), or an extra waiting period (e.g. 7 years) for re-training models with new data, is required. 
@@ -394,7 +396,7 @@ The four main functions are wrapper functions for routine training and forecasti
   ![](struct_jointstation.png)
   
 ### Subfunctions
-Subfunctions are those normal user practically do not have  a chance to use it. However, if you are a developer, these information will be very helpful.
+Subfunctions are those a user normally do not have a chance to use. However, if you are a developer, the information will be very helpful.
 
 
 #### Sum of Anomaly Indices (`convAIN`)
@@ -903,24 +905,6 @@ All Tools are not necessary for the MagTIP algorithm; they are invented, for exa
 <div class="markdown"><p>Use <code>&#91;var1, var2, ...&#93; &#61; get_modelparam&#40;BestModels, &#39;name1&#39;, &#39;name2&#39;,...&#41;</code>  to get specific model parameters uniquely. <strong>Example:</strong></p>
 <ul>
 <li><p>Tpreds, Tleads &#61; get_modelparam&#40;BestModels, &#39;Tpred&#39;, &#39;Tlead&#39;&#41;</p>
-</li>
-</ul>
-</div>
-
-
-
-
-## Test
-
-<div class="markdown"><h1>Test sublist</h1>
-<ul>
-<li><p>hello </p>
-<ul>
-<li><p>foo</p>
-</li>
-<li><p>bar</p>
-</li>
-</ul>
 </li>
 </ul>
 </div>
