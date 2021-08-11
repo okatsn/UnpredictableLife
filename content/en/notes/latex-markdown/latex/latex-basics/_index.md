@@ -35,13 +35,16 @@ A simple figure
 ```latex
 \begin{figure}[h]
 \vspace{3mm}
-\begin{center}
+\begin{center} % Figure caption aligned in center.
 \includegraphics[width=12cm]{your-image-file.png}
 \caption {Figure caption. \label{id-for-crossref}} % Figure caption
 \end{center}
 \vspace{-8mm}
 \end{figure}	
 ```
+> 🗝️ **Keys**
+> - The `\begin{center} ... \end{center}` block makes the content (e.g. paragraph, figure, etc.) inside center-aligned. For more information, [see this](https://www.overleaf.com/learn/latex/Text_alignment).
+
 
 A figure that spans only half-width of the page
 ```latex
@@ -104,7 +107,35 @@ You can generate `main.bib` using Zotero with Better BibTeX.
 > **❓ Why BetterBibTeX is recommended**
 > - If not Better BibTeX, error may occurred due to some defects in the auto-generated `.bib` file (e.g., incorrect line break; unnecessary information, etc.).
 
+#### BibTeX template
+```
+@article{eins1905,
+    author =       "Albert Einstein",
+    title =        "{Zur Elektrodynamik bewegter K{\"o}rper}. ({German})
+        [{On} the electrodynamics of moving bodies]",
+    journal =      "Annalen der Physik",
+    volume =       "322",
+    number =       "10",
+    pages =        "891--921",
+    year =         "1905",
+    DOI =          "http://dx.doi.org/10.1002/andp.19053221004"
+}
 
+@book{latexcompanion,
+    author    = "Michel Goossens and Frank Mittelbach and Alexander Samarin",
+    title     = "The \LaTeX\ Companion",
+    year      = "1993",
+    publisher = "Addison-Wesley",
+    address   = "Reading, Massachusetts"
+}
+
+@misc{knuthwebsite,
+    author    = "Donald Knuth",
+    title     = "Knuth: Computers and Typesetting",
+    url       = "http://www-cs-faculty.stanford.edu/\~{}uno/abcde.html"
+}
+```
+[Source](https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex)
 ### Manually write `bibitem`
 
 Similar to procedure of [Use BibTeX](#use-bibtex), but you have to manually enter every entry and inline **author-year style** (e.g. [Fraklin, 1982]) of citation **is not supported**.
@@ -141,6 +172,36 @@ K. Rose, E. Gurewitz, G. Fox.
 }
 ```
 
+### `natbib` (Natural Sciences Citations and References)
+
+In brief, `natbib` that allows `\citet`, `\citep`.
+For example, 
+- `\citep{eins1905}` produces `(Einstein, 1905)`
+- `\citet{eins1905}` produces `Einstein (1905)`
+
+Without using `natbib.sty`, `\cite` produces, for example, `(Einstein, 1905)` by default.
+
+#### How to use
+1. [download the natabib package](https://ctan.org/pkg/natbib?lang=en)
+2. Unzip the file (probably named as `natbib.zip`), and you should find a file named `natbib.ins`.
+3. Suppose the file is unzipped to `dir/to/natbib`; in shell (e.g. command window `cmd`), do 
+   - `cd dir/to/natbib`
+   - `LaTeX natbib.ins`
+4. After that, you got the `natbib.sty` in the same folder.
+5. Copy `natbib.sty` to your project (e.g. where `main.tex` exists), and add `\usepackage{natbib}`
+6. Now you can use `\citet` and `citep`
+
+> **💩Explain:**
+> - `dir/to/natbib` is a pseudo name referring the directory (folder) you placed the `natbib.ins`; that is, you have `dir/to/natbib/natbib.ins`.
+> - `main` is also a pseudo name; you can name your tex file arbitrarily such as `my_doc.tex` or `article_one.tex`.
+
+The natbib package also provides alternative bibliography styles, `abbrvnat.bst`, `plainnat.bst` and `unsrtnat.bst`, that you can use either of them via the syntax `\bibliographystyle`. 
+For example, `\bibliographystyle{abbrvnat}` makes the first name of an author you cited abbreviated in the References section.
+
+#### Resources
+- http://merkel.texture.rocks/Latex/natbib.php?lang=en
+- https://www.itread01.com/content/1544600046.html
+
 ### Others
 #### Without BibTeX
 (not figured out yet)
@@ -156,11 +217,7 @@ K. Rose, E. Gurewitz, G. Fox.
 #### biblatex
 https://tex.stackexchange.com/questions/12175/biblatex-submitting-to-a-journal/12185#12185
 
-#### natlib (that allows `\citet`, `\citep`, etc.)
-- http://merkel.texture.rocks/Latex/natbib.php?lang=en
-- https://www.itread01.com/content/1544600046.html
 
-You can generate the `natbib.sty` by `\...\yourpath\containing\the\file> LaTeX natbib.ins`. Read the documentation. I never successfully apply this style yet. 
 
 ## Debug 
 ### Stupid Error

@@ -1,0 +1,44 @@
+---
+title: "Writing With Julia"
+linkTitle: "Weave"
+date: 2021-08-10T17:29:57+08:00
+draft: true
+---
+
+## `weave` Options
+You can have a `.md` file be `weave`d with `informat="markdown"`.
+For example, `weave("doc.md"; informat="markdown")`.
+> ⚠️ `informat: "markdown"` in the front matter (header) is useless (2021-08-10).
+
+You can specify the options in the front matter, for example, 
+```
+---
+title : Interesting Topic
+author : Tsung-Hsi, Wu
+date: `j import Dates; Dates.Date(Dates.now())`
+weave_options:
+    doctype: md2html
+---
+```
+has the same effect as `weave(...; doctype=md2html)`.
+> ⚠️ The number of spaces (indentation) does matter.
+
+[Official Docs](http://weavejl.mpastell.com/stable/usage/#weave)
+
+## Code Chunk Options
+
+Code chuck option is specified after the code chunk header.
+For example, `julia; echo=false, results="hidden"`.
+
+- `echo=false`: Don't show the code chunk in the output html/md/pdf file.
+- `results="hidden"`: Don't show the computing result/outcome of the julia code inside the code chunk.
+- You can add figure caption and figure label using the `fig_cap` and `label` option.
+
+
+
+[Official Docs](http://weavejl.mpastell.com/stable/chunk_options/)
+
+## Knacks
+- md2pdf does not support `\begin{equation} \end{equation}`
+- long hyphen (`--`) cause an error for `weave(...;doctype=md2pdf)`
+- md2html support `\begin{equation} \end{equation}` and also `\label{crossref}`

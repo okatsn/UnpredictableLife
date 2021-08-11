@@ -320,7 +320,7 @@ Go to `/layouts/docs/list.html` and delete the following lines:
 {{ end }}
 ```
 
-##### Modify Footer or Anything of the Template
+##### Modify Footer or Anything else of the Template
 If you want to modify the text and hyperlinks shown in the footer, you might think to go to `layouts/partials/footer.html`. Disappointedly, you see only variable names (e.g. `.Site.Params.privacy_policy`) there. 
 To change the text/hyperlinks, you have to find where the variable locates.
 As an example, you can follow the following instruction:
