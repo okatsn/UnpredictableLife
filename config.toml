@@ -95,7 +95,9 @@ copyright = "Tsung-Hsi, Wu"
 privacy_policy = "https://creativecommons.org/licenses/by-sa/3.0/tw/"
 
 
-
+[frontmatter]
+draft = false
+# https://gohugo.io/getting-started/usage/
 
 
 # First one is picked as the Twitter card image if not set on page.

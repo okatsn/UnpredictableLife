@@ -1,0 +1,153 @@
+---
+title: A Brief Tutorial for Gadfly
+linkTitle: using Gadfly 
+author: "Tsung-Hsi, Wu"
+date: `j import Dates; Dates.Date(Dates.now())`
+# weave("content/en/notes/julia/imageplot/gadfly/using_gadfly.jmd")
+# tangle("content/en/notes/julia/imageplot/gadfly/using_gadfly.jmd")
+---
+
+Of course, we need:
+```julia
+using Gadfly
+using DataFrames
+```
+
+> **⚠️Notice:**: 
+> If you're using `Weave.jl`, which render the figures depend on output png files, it is necessary to `using Cairo, Fontconfig` with Gadfly in order to output images in `png` format. For more information, see [this](https://discourse.julialang.org/t/im-not-able-to-use-gadfly-weave/47810/4).
+
+```julia; echo=false
+using QuadGK
+using GeneralTools
+using Cairo
+using Fontconfig
+```
+
+## Multiple subplots with layers
+### Prepare the data
+
+```julia; echo=false, results="hidden"
+sigma = 0.01;
+mu = 0.0;
+# define the acceleration as a function of normal distribution:
+fn(x) = (sigma*sqrt(2*pi))^-1 * exp(-0.5*((x-mu)/sigma)^2)
+```
+
+```julia; echo=false, results="hidden"
+T = -1.0:0.01:3.0; # define x domain
+A = fn.(T);
+```
+
+```julia; echo=false, results="hidden"
+function rsign(v) # sign with tolerance
+	tol = 10^-5
+	if -tol < v < tol
+		absv = 0.0;
+	else
+		absv = sign(v);
+	end
+	return absv
+end
+
+# Define damping
+Fc = 2.0;
+Fv = 4.0; 
+# Calculate integration of A
+I_E = quadgk.(fn,minimum(T),collect(T)[2:end]); # (I, E)
+v0 = 0.0;
+vc = copy(v0);
+vv = copy(v0);
+V = Float64[v0];
+Vc = copy(V);
+Vv = copy(V);
+dts = diff(T);
+
+
+for (index, value) in enumerate(I_E)
+	global vc, vv
+	dt = dts[index];
+	push!(V, value[1]);
+	
+	vc = vc + A[index]*dt - Fc*rsign(vc)*dt;
+	vv = vv + A[index]*dt - Fv*vv*dt;
+	push!(Vc, vc);
+	push!(Vv, vv);
+end
+(V, Vc, Vv)
+```
+
+Assuming you want to plot time (`T`) versus acceleration (`A`), velocity (`V`) and velocity with two kinds of damping (`Vc` and `Vv`).
+
+Gadfly works especially great with `DataFrame` objects; so, 
+firstly, create the Dataframe:
+```julia; results="hidden"
+df_wide = DataFrame("time"=>T, "acceleration"=>A, "velocity"=>V, "velocity (with damping)"=> Vv);
+```
+```julia; echo=false
+println("""A "wide" dataframe: """);
+preview(df_wide,10);
+```
+
+
+and convert it to "long" format:
+```julia
+# a long dataframe where the three variables are grouped by their column name
+df_long = stack(df_wide, ["acceleration", "velocity", "velocity (with damping)"]);
+```
+
+```julia; echo=false
+println("""The converted "long" dataframe: """);
+preview(df_long,10)
+```
+
+### One subplot with three layers
+Plotting the data _**by color**_ in one subplot, where the color is distinguished by the column `"variable"` (i.e., "acceleration", "velocity", or "velocity with damping"):
+
+```julia
+plot(df_long, x = "time", y="value", color="variable", Geom.line)
+```
+
+For more about layers, see [Gadfly/compositing](http://gadflyjl.org/stable/man/compositing/).
+### Three subplots
+Now we plot the 3 sets of data _**by group**_ in individual subplots respectively:
+```julia
+plot(df_long, x = "time", y="value", ygroup = "variable", 
+     Geom.subplot_grid(Geom.line, free_y_axis=true))
+```
+
+
+What if I want plot another velocity with another damping, saying `Vc`? 
+Firstly, following the same procedure in [Prepare the data](#prepare-the-data), create a dataframe having "time", "value", and **a "variable" column** saying that the data also belong to "velocity (with damping)":
+```julia; results="hidden"
+df_vdamp2 = DataFrame("time"=> T, "value"=> Vc, "variable"=> "velocity (with damping)")
+```
+```julia; echo=false
+preview(df_vdamp2,6)
+```
+
+
+```julia
+# Gadfly.push_theme(style(line_style=[:solid])); # seems not required
+plot(df_long, x = "time", y="value", ygroup = "variable", 
+     Geom.subplot_grid(
+        layer(Geom.line), # layer 1: df_long
+        layer(df_vdamp2, x = "time", y="value", ygroup = "variable",
+        Geom.line, style(line_style=[:dot])),
+        free_y_axis=true)
+	)
+```
+
+```julia
+# Gadfly.push_theme(style(line_style=[:solid])); # seems not required
+plot(Geom.subplot_grid(
+	layer(df_long, ygroup = "variable", x="time", y="value", #color="color", 
+			Geom.line)
+	,layer(df_vdamp2, ygroup = "variable", x="time", y="value", #color="color", 
+			Geom.line,style(line_style=[:dot]))
+	,free_y_axis=true
+	)
+    ,Guide.ylabel("Y")
+)
+```
+
+For more about subplots, see [Gallery_Geom.subplot_grid](http://gadflyjl.org/stable/gallery/geometries/#Gallery_Geom.subplot_grid).

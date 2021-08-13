@@ -256,17 +256,28 @@ Last but not least, you have to `pkg> free GeneralTools` after the development s
 
 
 ## Test
+### Write the test
+#### Scripts for tests
 Write a test `test/myjoinpath.jl` for `src\myjoinpath.jl`:
 ```julia
 fs = Base.Filesystem.path_separator;
-@ test myjoinpath("dir",".to","whatever") == joinpath("dir",".to","whatever")
-@ test myjoinpath("foo","bar","nice") == join(["foo","bar","nice"], fs)
+@test myjoinpath("dir",".to","whatever") == joinpath("dir",".to","whatever")
+@test myjoinpath("foo","bar","nice") == join(["foo","bar","nice"], fs)
 ```
 
-Write your `test/runtest.jl`
+Using `@testset` macro:
+```julia
+@testset "Check if `myjoinpath` works as great as `joinpath`:" begin
+  @test myjoinpath("dir",".to","whatever") == joinpath("dir",".to","whatever")
+  @test myjoinpath("foo","bar","nice") == join(["foo","bar","nice"], fs)
+end
+```
+
+#### `Runtests.jl`
+Write your `test/runtest.jl`:
 ```
 using MyPackage
-using Base.Test
+using Test # or maybe Base.Test
 
 # script in the test, for example
 tests = ["stable",  # test/myjoinpath.jl
@@ -282,13 +293,52 @@ for t in tests
 end
 ```
 
-Run the test:
+If you don't want to manually add all the test files in to the `runtests.jl`, you'd like to try the following:
+```julia
+function targetlist(targetexpr::Regex, dir2walk::AbstractString)
+    # targetexpr = r"(\.jl)$";
+    fulllist = String[];
+    for (root, folders, files) in walkdir(dir2walk)
+        for file in files
+            push!(fulllist, joinpath(root, file));
+        end
+    end
+    allfiles = basename.(fulllist);
+    targetid = occursin.(targetexpr, allfiles);
+    
+    targetpaths = fulllist[targetid];
+    return targetpaths, allfiles
+end
+
+using Test
+using GeneralTools
+	
+println("Running tests:")
+
+(testfiles, allnames) = targetlist(r"^(?!runtests).*(\.jl)$", "./");
+# pwd() here should be "./test/"
+for f in testfiles
+	include(f);
+end
+```
+> **💁Explain:**
+> In the example above, `targetlist` gives paths to all `.jl` files under the `./test/` and its sub-folders, with `runtests.jl` being excluded. After that, all the files in `testfiles` are included.
+
+
+### Run the test
 ```julia
 using Pkg
 Pkg.test("MyPackage");
 ```
-
-> 💡 A test file's name does not necessarily to be the same as the function to be tested.
+or simply
+```julia:repl
+(MyPackage) pkg> test
+```
+> **🔑Hint:**
+> - press `]` in julia repl to switch to pkg mode
+> - `pkg> activate .` at your package's directory.
+> - A test file's name does not necessarily to be the same as the function to be tested.
+ 
 > 🙏 This example is modified from [this](https://ithelp.ithome.com.tw/articles/10186179).
 
 

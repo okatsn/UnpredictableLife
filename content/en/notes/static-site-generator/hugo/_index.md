@@ -64,6 +64,7 @@ Live server
 > - `cd` to `\mySite\themes\techdoc\exampleSite\` and `hugo server` to see how an example site looks like
 > - copy the content in `\mySite\themes\techdoc\exampleSite\config.toml` to `\mySite\config.toml`, and do some modification
 
+
 #### Menu
 Generally menu will automatically generated as you create a subfolder with `hugo new`.
 For example, `hugo new Hello/index.md`, `hugo new Hello/sunny-day.md`, `hugo new Hello/rainy-day.md`, and set `draft` to be true in the front matter and you will see the following as a collapsible sidebar menu appear on the side of the live server:
@@ -93,9 +94,32 @@ You may add, for example,  `weight: 20` (or any positive integer) in the front m
 #### Layout
 You may do some modifications of the files in `\mySite\themes\techdoc\layout`; however, when you uploaded to github all modifications will be restored to default. What you have to do is to copy the files from `\mySite\themes\techdoc\layout` to `\mySite\layout`, where the templates in the latter directory will overwrite the default. For more information, see [this](https://youtu.be/c7vpcqA6SEQ?t=1379).
 
-#### Archetypes
-The template of how it creates a new post.
+#### Archetypes and Front Matter
+Archetypes is about how `hugo new` creates a new post.
 https://youtu.be/c7vpcqA6SEQ?t=1487
+
+By default, we may have an `archetypes` folder with `default.md`: 
+```
+./
+├── archetypes
+│   └── default.md
+├── content
+ ⋮
+```
+
+The `default.md` is in fact the template of front matter by default, to be something like:
+```
+---
+title: "{{ replace .Name "-" " " | title }}"
+date: {{ .Date }}
+draft: true
+---
+```
+Modify it to customize the front matter template; 
+for what you can add in the front matter, see:
+- [Front matter options](https://gohugo.io/content-management/front-matter)
+- [More about front matter](https://gohugo.io/content-management/front-matter/)
+- Also see this [simple tutorial](https://www.clairecodes.com/blog/2021-02-19-creating-custom-front-matter-in-hugo-files/)
 
 ### Furthermore
 
@@ -134,6 +158,9 @@ the math expression in the `$$...$$` block will be correctly displayed.
 To ensure these pieces of code are included everywhere, you may add them to, for example, in `\themes\docsy\layouts\partials\footer.html`.
 
 For more information, see [here](https://bwaycer.github.io/hugo_tutorial.hugo/tutorials/mathjax/).
+
+#### Add Tags to your post
+https://youtu.be/c7vpcqA6SEQ?t=1958
 
 ## Example
 ### Another example: docPort
