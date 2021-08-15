@@ -50,3 +50,6 @@ julia> `get_environments()`
 
 julia> `get_projectfiles()`
 - will list all `Project.toml`. Double click one to open the file directly.
+
+### Useful macros
+- `@code_lowered g(f)`:  ask Julia what happened. Also see [What is the difference between `@code_native`, `@code_typed` and `@code_llvm` in Julia](https://stackoverflow.com/questions/43453944/what-is-the-difference-between-code-native-code-typed-and-code-llvm-in-julia)
