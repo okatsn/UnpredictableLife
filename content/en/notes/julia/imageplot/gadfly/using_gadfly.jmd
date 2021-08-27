@@ -1,6 +1,6 @@
 ---
 title: A Brief Tutorial for Gadfly
-linkTitle: using Gadfly 
+linkTitle: using Gadfly.jl
 author: "Tsung-Hsi, Wu"
 date: `j import Dates; Dates.Date(Dates.now())`
 # weave("content/en/notes/julia/imageplot/gadfly/using_gadfly.jmd")
