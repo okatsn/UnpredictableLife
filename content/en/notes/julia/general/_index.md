@@ -1,7 +1,7 @@
 ---
 title: "General"
 date: 2021-08-01T14:24:58+08:00
-draft: false
+draft: true
 ---
 [TOC]
 ## Tutorial and Resources
