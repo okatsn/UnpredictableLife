@@ -35,6 +35,7 @@ You can `introspect` the `compose`d graphic to see the relations between objects
 
 
 ## Vectorization
+### Basic Example
 Plot three circles of three colors:
 ```julia
 # the x, y, r of the three circles:
@@ -101,3 +102,116 @@ compose(context(0.0,0.0,1.0,h),
 ```
 
 ![](compose_9_1.png)
+
+
+### Example: Vector Field
+
+```julia
+v1 = (0.5,0.5); # vector
+absv = hypot(v1...); # length of vector
+clr = stroke(RGBA(90/255,39/255,41/255,absv)) # color of arrow
+
+"""
+`unitarrow(arrangle, arrlength)` creates a good arrow. Noted that the maximum length of arrow should not exceeds 1.
+"""
+function unitarrow(arrangle, arrlength; arrwidth=0.1, arrheight=0.15)
+	head_x =0.5 + 0.5*arrlength;
+	center = (0.5, 0.5);
+	headpoint = (head_x, 0.5);
+	sidepoint_a = headpoint.+(-arrheight,-arrwidth/2);
+	sidepoint_b = headpoint.+(-arrheight,arrwidth/2);
+	function lim_x(sidepoint_a)
+		sidepoint_a = maximum.(([sidepoint_a[1], center[1]], [sidepoint_a[2]]))
+	end
+	sidepoint_a = lim_x(sidepoint_a);
+	sidepoint_b = lim_x(sidepoint_b);
+
+	eq_triangle = [sidepoint_a,
+				   sidepoint_b,
+				   headpoint]
+	tailwidth = arrwidth/5;
+	arrowtail = (context(), polygon(
+			[(1-headpoint[1],headpoint[2]-tailwidth/2),
+			 (1-headpoint[1],headpoint[2]+tailwidth/2),
+			 (sidepoint_a[1], headpoint[2]+tailwidth/2),
+			 (sidepoint_a[1], headpoint[2]-tailwidth/2)
+				]))
+		# rectangle(headpoint[1]-tailwidth/2,0,tailwidth,1-arrheight))
+	arrowheadx = (context(units=UnitBox(0,0,1,1)),polygon(eq_triangle));
+	arw = compose(
+		context(units=UnitBox(0,0,1,1), rotation=Rotation(arrangle, 0.5, 0.5)), 
+		arrowheadx,
+		arrowtail);
+end
+
+theta = atan(v1[2], v1[1])-pi/2;
+unitarrow(theta, absv)
+```
+
+![](compose_10_1.png)
+```julia
+function mymeshgrid(rangex, rangey)
+  xgrid = Float64[];
+  ygrid = Float64[];
+  for i in rangex
+    for j in rangey
+      push!(xgrid, i);
+		push!(ygrid, j);
+    end
+  end
+  return (xgrid, ygrid)
+end
+subcoord2(x0,y0,obj) = (context(x0,y0,1,1), obj);
+subcoord1(x0,y0) = (context(x0,y0,1,1), rectangle(), stroke("black"), fill(nothing));
+
+n = 5;
+(xs, ys) = mymeshgrid(collect(0:n),collect(0:n));
+m = length(xs);
+thetas = rand(1:360, m) ./ (2pi);
+arrlen = rand(1:100, m) ./ 100;
+objs = unitarrow.(thetas, arrlen);
+compose(context(;units=UnitBox(0,0,n+1,n+1)), 
+        subcoord2.(xs,ys,objs)..., subcoord1.(xs,ys)...)
+```
+
+![](compose_11_1.png)
+
+
+### Example: vector field 2
+```julia
+function arrowhead(θ)
+	eq_triangle = [(0, 1/sqrt(3)),
+		           (-1/3, -2/(2 * sqrt(3))),
+		           (1/3, -2/(2 * sqrt(3)))]
+
+	compose(context(units=UnitBox(-1,-1,2,2), rotation=Rotation(θ, 0, 0)),
+				polygon(eq_triangle))
+	# Rotation(θ, x, y): Rotate all forms in context around point (x,y) by angle θ in radians. 
+end
+
+function quiver(points, vecs)
+	xmin = minimum(first.(points))
+	ymin = minimum(last.(points))
+	xmax = maximum(first.(points))
+	ymax = maximum(last.(points))
+	hs = map(x->hypot(x...), vecs)
+	hs = hs / maximum(hs)
+
+	vector(p, v, h) = all(iszero, v) ? context() :
+		(context(),
+		    (context((p.+v.*6 .- .2)..., .4,.4),
+				arrowhead(atan(v[2], v[1]) - pi/2)),
+		stroke(RGBA(90/255,39/255,41/255,h)),
+		fill(RGBA(90/255,39/255,41/255,h)),
+		line([p, p.+v.*8]))
+
+	compose(context(units=UnitBox(xmin,ymin,xmax,ymax)),
+         vector.(points, vecs, hs)...)
+end
+
+
+quiver([[(j-1,i-1) for i=0:n, j=0:n]...],
+       [arrlen[i].*(cos(thetas[i]), sin(thetas[i])) for i = 1:length(thetas)])
+```
+
+![](compose_12_1.png)

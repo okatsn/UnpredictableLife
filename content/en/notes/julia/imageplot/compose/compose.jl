@@ -1,43 +1,11 @@
----
-title: A Brief Tutorial for Compose.jl
-linkTitle: using Compose.jl
-author: "Tsung-Hsi, Wu"
-date: `j import Dates; Dates.Date(Dates.now())`
----
 
-```julia; echo=false, results="hidden"
 # using Compose
 
-```
 
-## Introduction
-Compose creates graphics that can be further composed with others.
-For example, create a circle of radius 0.2 centered at 0.5 filled with red color in the coordinate system with both x, y's range being [0,1] by default:
-
-
-```julia
 using Compose
 compose(context(), fill("red"), circle(0.5,0.5,0.2))
-```
-
-Regarding the structure of the composed graphic as a tree, there are three important types for "member" in the tree:
-- `Context`: an internal node that you may regard it as a "coordinate system"; it is created by `context()`.
-- `Form`: a leaf node that defines geometry. For example, the `circle()`
-- Property: a leaf node that gives a property to the `Form`. For example, `fill("red")`.
-
-## Decomposition of composed object
-`compose(a,b,c,ds...)` is in fact `compose(compose(a, b), c, ds...)`; with `compab = compose(a,b)`, it can further be rewritten to `compose(compose(compab, c), ds...)`.
-
-## Introspect the structure of graphics
-You can `introspect` the `compose`d graphic to see the relations between objects and properties.
-
-![](cmpsexplained.png)
 
 
-## Vectorization
-### Basic Example
-Plot three circles of three colors:
-```julia;results="hidden"
 # the x, y, r of the three circles:
 xs = [0.25, 0.5, 0.75];
 ys = [0.75, 0.5, 0.25];
@@ -49,8 +17,8 @@ colors = [LCHab(92, 10, 77), LCHab(68, 74, 192), LCHab(78, 84, 29)];
 
 fig_e = compose(context(),
 circle(xs, ys, rs), fill(colors));
-```
-```julia; echo=false
+
+
 function resultandtree(fig_x)
   yh = 0.8;
   cap(x,y,str,clr) = (context(), text(x,y,str,hcenter,vtop),fill(clr));
@@ -62,11 +30,8 @@ function resultandtree(fig_x)
 end
 
 resultandtree(fig_e)
-```
 
 
-Create a new coordinate system of 9 sub-coordinate system, put `fig_e` (the three circles) inside each sub-coordinate system:
-```julia;results="hidden"
 # the start points of the 9 sub-coordinate systems
 x0 = [0,0,0,1,1,1,2,2,2]./3;
 y0 = [0,1,2,0,1,2,0,1,2]./3;
@@ -76,29 +41,19 @@ xw = yh = 1.0./3;
 subcoord(x0,y0) = (context(x0,y0,xw,yh), fig_e);
 fig_f = compose(context(),
         subcoord.(x0,y0)... );
-```
 
-```julia;echo=false
+
 resultandtree(fig_f)
-```
 
-in which, `x0,y0,xw,yh` defines the position of the sub-coordinate system `context(x0,y0,xw,yh)` in `context()`'s space. 
-The default x, y range of `context(x0,y0,xw,yh)` is [0,1], and you can redefine it by adding the `;units=UnitBox()` kwarg. 
-`circle(xs, ys, rs)` in `fig_e`, is plotted in `context(x0,y0,xw,yh)`, in which, `xs`, `ys`, and radius `rs` define the three circles in `context(x0,y0,xw,yh)`.
 
-If you redefine the scale of the coordinate system of `subcoord`, for example, that x, y coordinates ranges changed to [0,2], and `xs`, `ys`, and radius `rs` spans less portion of the axes of larger scale, they look smaller:
-```julia
 subcoord(x0,y0) = (context(x0,y0,xw,yh;units=UnitBox(0,0,2,2)), fig_e);
 fig_g = compose(context(),
         subcoord.(x0,y0)... );
-```
-```julia;echo=false
+
+
 resultandtree(fig_g)
-```
 
 
-Here is the overview of `fig_e`, `fig_f`, `fig_g`:
-```julia
 h = 0.7;
 w = 1/3;
 box = (context(), rectangle(), fill(nothing),stroke("black"));
@@ -107,11 +62,8 @@ compose(context(0.0,0.0,1.0,h),
          (context(0.0,0.0,w,h), cap("fig_e"), fig_e, box), 
 		 (context(1/3,0.0,w,h), cap("fig_f"), fig_f, box),
 		 (context(2/3,0.0,w,h), cap("fig_g"), fig_g, box))
-```
 
-### Example: Vector Field
 
-```julia
 v1 = (0.5,0.5); # vector
 absv = hypot(v1...); # length of vector
 clr = stroke(RGBA(90/255,39/255,41/255,absv)) # color of arrow
@@ -151,9 +103,8 @@ end
 
 theta = atan(v1[2], v1[1])-pi/2;
 unitarrow(theta, absv)
-```
 
-```julia
+
 function mymeshgrid(rangex, rangey)
   xgrid = Float64[];
   ygrid = Float64[];
@@ -178,10 +129,6 @@ compose(context(;units=UnitBox(0,0,n+1,n+1)),
         subcoord2.(xs,ys,objs)..., subcoord1.(xs,ys)...)
 
 
-```
-
-### Example: vector field 2
-```julia
 function arrowhead(θ)
 	eq_triangle = [(0, 1/sqrt(3)),
 		           (-1/3, -2/(2 * sqrt(3))),
@@ -212,7 +159,6 @@ function quiver(points, vecs)
          vector.(points, vecs, hs)...)
 end
 
+quiver([(j-1,i-1) for i=0:n, j=0:n],
+       [len.*(cos(theta), sin(theta)) for theta in thetas, len in arrlen])
 
-quiver([[(j-1,i-1) for i=0:n, j=0:n]...],
-       [arrlen[i].*(cos(thetas[i]), sin(thetas[i])) for i = 1:length(thetas)])
-```
