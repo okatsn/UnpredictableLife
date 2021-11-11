@@ -293,6 +293,11 @@ Open the `config.toml` of the `docsy-example`, and
 
 - LaTeX math support (see [Diagrams and Formulae](https://www.docsy.dev/docs/adding-content/diagrams-and-formulae/))
   ```
+  # for math
+  [params.katex]
+  enable = true
+  html_dom_element = "document.body"
+
   # enable display of chemical equations and physical units via mhchem extension
   [params.katex.mhchem]
   enable = true
@@ -306,7 +311,7 @@ Open the `config.toml` of the `docsy-example`, and
   [[params.katex.options.delimiters]]
     left = "$$"
     right = "$$"
-    display = true
+    display = true # whether to show in display mode
   ```
   
 - render the html codes in your markdown file (conventionally you should use [shortcodes](https://gohugo.io/content-management/shortcodes/)).
@@ -325,7 +330,47 @@ Open the `config.toml` of the `docsy-example`, and
       # Uncomment if you want your chosen highlight style used for code blocks without a specified language
       # guessSyntax = "true"
   ```
+- `enableGitInfo = true` will give values to `.Lastmod` etc., and hence a date time stamp will be generated via `page-meta-lastmod.html`. This must be put at the very beginning, for example:
+  ```
+  baseURL = 'https://CGRG-lab.github.io/doc-archive/'
+  languageCode = 'en-us'
+  title = 'doc-archive'
+  theme = "docsy"
+  enableGitInfo = true # you have to put this BEFORE the language setting section
+  ```
+
+- icon before/after the link on the header: add `pre:`/`post:` at the font matter. The following example makes the link for the page MagTIP show on the header, with a book-shaped icon as the prefix. You can find the icon code (e.g., `<i class='fas fa-book'></i>`) at https://fontawesome.com/.
+  ```
+  ---
+  title: "MagTIP"
+  draft: false
+  weight: 30
+  menu:
+    main:
+      weight: 30
+      pre: <i class='fas fa-book'></i>
+  cascade:
+  - type: "docs"
+  ---
+  ```
+  > 💡Tips: change for example `fa-solid` to `fas` may solve the problem that the free icon cannot be displayed.
   
+- Want feed back?
+  ```
+  [services]
+  [services.googleAnalytics]
+  # Comment out the next line to disable GA tracking. Also disables the feature described in [params.ui.feedback].
+  id = "UA-00000000-0" # This is required to enable feedback. See `themes/docsy/layouts/docs/list.html`.
+
+  [params.ui.feedback]
+  enable = true
+  # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
+  yes = 'Glad to hear it! Please <a href="https://github.com/CGRG-lab/doc-archive/issues/new">tell us how we can improve</a>.'
+  no = 'Sorry to hear that. Please <a href="https://github.com/CGRG-lab/doc-archive/issues/new">tell us how we can improve</a>.'
+  
+  # add "hide_feedback: true" to the page's front matter to disable feedback in a single page 
+  ```
+
 #### Menu and Directory structure
 https://www.docsy.dev/docs/adding-content/navigation/
 
