@@ -316,6 +316,16 @@ Open the `config.toml` of the `docsy-example`, and
       [markup.goldmark.renderer]
         unsafe = true
   ```
+- code block style
+  ```
+  # also under [markup]
+    [markup.highlight] # This changes the background color of the code block
+      # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
+      style = "tango"
+      # Uncomment if you want your chosen highlight style used for code blocks without a specified language
+      # guessSyntax = "true"
+  ```
+  
 #### Menu and Directory structure
 https://www.docsy.dev/docs/adding-content/navigation/
 
