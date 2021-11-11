@@ -1,28 +1,22 @@
 ---
 author: "CGRG"
-doctype: "hugo"
 title: "MagTIP (2021) Documentation"
 date: "2021-10-05"
-out_path: "_index.md"
 linkTitle: "MagTIP"
-menu: "main"
 ---
 
 
-TODO: git commit and push unpredictable-life
+<!-- TODO: git commit and push unpredictable-life
 FIXME: Delete the following in the future 
 
 `cd` to the folder where there is `.jmd`, and 
 ```
 lazyhugo();
 cp2content("D:\\GoogleDrive\\Sites\\unpredictable-life\\content\\en\\my-project\\MagTIP")
-```
+``` -->
 
 
-[TOC]
-
-
-
+# HELLO
 
 ## Introduction
 
@@ -892,76 +886,6 @@ loadAIN&#40;dir_tsAIN,BestModelNames,TimeRange&#41;</code></pre>
 
 All Tools are not necessary for the MagTIP algorithm; they are invented, for example, to demonstrate the results in figure or for generating/selecting directories in a convenient way.
 
-#### Make Default Directories (`mkdir_default`)
-
-<div class="markdown"><p><code>mkdir_default</code> creates/makes folders by default and return their  directories with default variable names. The default structure is:</p>
-<pre><code>                   variable           default folder name
-    ╔═ dir_main ═╤═══════════════════════════════════════╗
-    ║            ├─dir_stat         &#61;   &#39;StatisticIndex&#39; ║
-    ║            ├─dir_tsAIN        &#61;   &#39;tsAIN&#39;          ║
-    ║            ├─dir_molchan      &#61;   &#39;MolchanScore&#39;   ║
-    ║            └─dir_jointstation &#61;   &#39;JointStation&#39;   ║
-    ╚════════════════════════════════════════════════════╝</code></pre>
-<p><strong>Example:</strong> <code>&#91;dir_stat, dir_tsAIN, dir_molchan, dir_jointstation&#93; &#61; mkdir_default&#40;fullfile&#40;pwd,&#39;output_var&#39;&#41;&#41;</code></p>
-</div>
-
-
-
-#### Input/Output Directory Selection (`dirselectassign`)
-
-<div class="markdown"><p><code>dirselectassign&#40;var_names...&#41;</code>  prompt user to select directories in a dialog box, and assigned the  selected path to workspace with default variable name. If a variable with the same name as the default name has already in the workspace, its assignment will be ignored &#40;i.e. its dialog box won&#39;t pop out&#41;. This is a tool for convenience. You can always assign directories  explicitly to variable with any name you like.</p>
-<p><strong>Example:</strong></p>
-<ul>
-<li><p>Four windows will pop out one by one allowing you to assign directories to variables  <code>dir_stat</code>, <code>dir_tsAIN</code>, <code>dir_molchan</code>, <code>dir_jointstation</code>: </p>
-<pre><code class="language-matlab">dirselectassign&#40;&#39;dir_stat&#39;,&#39;dir_tsAIN&#39;,&#39;dir_molchan&#39;,&#39;dir_jointstation&#39;&#41;;</code></pre>
-<p>&#40;Read the printed message in the Command Window&#41;</p>
-</li>
-</ul>
-<ul>
-<li><p>Total 7 windows will pop out one by one allowing you to assign directories to the variables with default names <code>dir_stat</code>, <code>dir_tsAIN</code> , <code>dir_molchan</code>, <code>dir_jointstation</code>, <code>dir_data</code>, <code>dir_catalog</code>, <code>dir_toolbox</code>:</p>
-<pre><code class="language-matlab">dirselectassign&#40;&#41;;</code></pre>
-<p>&#40;Read the printed message in the Command Window&#41;</p>
-</li>
-</ul>
-</div>
-
-
-
-#### Reconstruct `[Molchan]Information.mat` (`constructMolInfo`)
-
-<div class="markdown"><p><code>constructMolInfo&#40;dir_molchan,InfoId&#41;</code> construct the &#39;&#91;MolchanScore&#93;Information.mat&#39; according to existing &#91;Molchanscore&#93;___.mat files if possible. Use this function only if instructed by error message.</p>
-</div>
-
-
-
-#### For Calculating Fitting Degrees
-##### `calcFittingDegree`
-
-<div class="markdown"><p><code>calcFittingDegree&#40;jpathlist&#41;</code> according to the given files &#40;<code>jpathlist</code>&#41; provides the overall alarmed rate, missing rate that allows the calculation of the overall fitting degree.  Make sure to provide correct input list of the <code>&#91;JointStation&#93;</code> variable , for example, those have the same ID and are not overlapped in  forecasting time interval for each group;  otherwise the calculated fitting degree can be unreasonable.</p>
-<p><strong>Example:</strong></p>
-<pre><code class="language-matlab">dir_png &#61; &#39;D:\GoogleDrive\0MyResearch\CWB_project\CWB2021\Figures&#39;;
-jpathlist &#61; datalist&#40;&#39;&#91;JointStation&#93;ID&#91;ou7ud&#93;filt&#91;ULF-B&#93;*.mat&#39;, dir_jointstation&#41;.fullpath;
-&#91;AlarmedRate, MissingRate, xticklabel, EQKs, TIP3s, TIPv3s,TIPTimes,LatLons&#93; &#61; calcFittingDegree&#40;jpathlist&#41;;
-FittingDegrees &#61; 1 - AlarmedRate - MissingRate;
-plotEQKTIP3&#40;dir_png,filt_i, xlabels, EQKs, TIP3s, TIPv3s,TIPTimes, LatLons&#41;;</code></pre>
-<p><strong>Input Arguments</strong>:</p>
-<ul>
-<li><p><code>jpathlist</code>: a cell array of the full paths of <code>&#91;JointStation&#93;</code> files that are produced by <code>molscore3</code>. You can simpliy obtain the path list by <code>jpathlist &#61; datalist&#40;&#39;&#91;JointStation&#93;ID&#91;ou7ud&#93;*filt&#91;ULF-A&#93;*slc&#91;Tpred-10&#93;*.mat&#39;,dir_jointstation&#41;.fullpath;</code></p>
-</li>
-</ul>
-<p><strong>Keyword Arguments</strong>:</p>
-<ul>
-<li><p>&#39;GroupTag&#39;: The tag for grouping the files in <code>jpathlist</code>.</p>
-</li>
-<li><p>&#39;GroupNames&#39;: Results are calculated separately according to the assigned group names;  alarmed rate, missing rate and so on are only calculated if the file name contains the  assigned group names.  For example, for <code>...,&#39;GroupNames&#39;,&#123;&#39;Tpred-1&#39;, &#39;Tpred-5&#39;&#125;,&#39;GroupTag&#39;, &#39;slc&#39;,...</code>,  only the files with their names containing tag &#39;slc&#91;Tpred-1&#93;&#39; and &#39;slc&#91;Tpred-5&#93;&#39; are selected, and  the results of those being &#39;Tpred-1&#39; and &#39;Tpred-5&#39; are separately calculated. That is, the output <code>xlabel</code>  is <code>&#123;&#39;Tpred-1&#39;, &#39;Tpred-5&#39;&#125;</code> and other output arguments &#40;e.g. <code>AlarmedRate</code>&#41; are all cell array of the same  dimension as <code>xlabel</code> containing the results of the groups that are calculated separately. </p>
-</li>
-<li><p>Noted that You cannot assign &#39;GroupName&#39; without assigning &#39;GroupTag&#39;, but assigning &#39;GroupTag&#39; without assigning &#39;GroupName&#39; is OK, in this case the group names will automatically generated and sorted. </p>
-</li>
-</ul>
-</div>
-
-
-
 #### Overview of All Geomagnetic Data (`plot_dataoverview`)
 
 <div class="markdown"><p><code>plot_dataoverview&#40;dir_stat&#41;</code> plot an overview of all data. <strong>Keyword options:</strong></p>
@@ -1030,6 +954,40 @@ plotEQKTIP3&#40;dir_png,filt_i, xlabels, EQKs, TIP3s, TIPv3s,TIPTimes, LatLons&#
 </div>
 
 
+#### Reconstruct `[Molchan]Information.mat` (`constructMolInfo`)
+
+<div class="markdown"><p><code>constructMolInfo&#40;dir_molchan,InfoId&#41;</code> construct the &#39;&#91;MolchanScore&#93;Information.mat&#39; according to existing &#91;Molchanscore&#93;___.mat files if possible. Use this function only if instructed by error message.</p>
+</div>
+
+
+
+#### For Calculating Fitting Degrees
+##### `calcFittingDegree`
+
+<div class="markdown"><p><code>calcFittingDegree&#40;jpathlist&#41;</code> according to the given files &#40;<code>jpathlist</code>&#41; provides the overall alarmed rate, missing rate that allows the calculation of the overall fitting degree.  Make sure to provide correct input list of the <code>&#91;JointStation&#93;</code> variable , for example, those have the same ID and are not overlapped in  forecasting time interval for each group;  otherwise the calculated fitting degree can be unreasonable.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-matlab">dir_png &#61; &#39;D:\GoogleDrive\0MyResearch\CWB_project\CWB2021\Figures&#39;;
+jpathlist &#61; datalist&#40;&#39;&#91;JointStation&#93;ID&#91;ou7ud&#93;filt&#91;ULF-B&#93;*.mat&#39;, dir_jointstation&#41;.fullpath;
+&#91;AlarmedRate, MissingRate, xticklabel, EQKs, TIP3s, TIPv3s,TIPTimes,LatLons&#93; &#61; calcFittingDegree&#40;jpathlist&#41;;
+FittingDegrees &#61; 1 - AlarmedRate - MissingRate;
+plotEQKTIP3&#40;dir_png,filt_i, xlabels, EQKs, TIP3s, TIPv3s,TIPTimes, LatLons&#41;;</code></pre>
+<p><strong>Input Arguments</strong>:</p>
+<ul>
+<li><p><code>jpathlist</code>: a cell array of the full paths of <code>&#91;JointStation&#93;</code> files that are produced by <code>molscore3</code>. You can simpliy obtain the path list by <code>jpathlist &#61; datalist&#40;&#39;&#91;JointStation&#93;ID&#91;ou7ud&#93;*filt&#91;ULF-A&#93;*slc&#91;Tpred-10&#93;*.mat&#39;,dir_jointstation&#41;.fullpath;</code></p>
+</li>
+</ul>
+<p><strong>Keyword Arguments</strong>:</p>
+<ul>
+<li><p>&#39;GroupTag&#39;: The tag for grouping the files in <code>jpathlist</code>.</p>
+</li>
+<li><p>&#39;GroupNames&#39;: Results are calculated separately according to the assigned group names;  alarmed rate, missing rate and so on are only calculated if the file name contains the  assigned group names.  For example, for <code>...,&#39;GroupNames&#39;,&#123;&#39;Tpred-1&#39;, &#39;Tpred-5&#39;&#125;,&#39;GroupTag&#39;, &#39;slc&#39;,...</code>,  only the files with their names containing tag &#39;slc&#91;Tpred-1&#93;&#39; and &#39;slc&#91;Tpred-5&#93;&#39; are selected, and  the results of those being &#39;Tpred-1&#39; and &#39;Tpred-5&#39; are separately calculated. That is, the output <code>xlabel</code>  is <code>&#123;&#39;Tpred-1&#39;, &#39;Tpred-5&#39;&#125;</code> and other output arguments &#40;e.g. <code>AlarmedRate</code>&#41; are all cell array of the same  dimension as <code>xlabel</code> containing the results of the groups that are calculated separately. </p>
+</li>
+<li><p>Noted that You cannot assign &#39;GroupName&#39; without assigning &#39;GroupTag&#39;, but assigning &#39;GroupTag&#39; without assigning &#39;GroupName&#39; is OK, in this case the group names will automatically generated and sorted. </p>
+</li>
+</ul>
+</div>
+
+
 
 #### Retrieve Model Parameter (`get_modelparam`)
 
@@ -1082,4 +1040,24 @@ In fact, all input/output directories can be arbitrarily assigned; we also provi
     ║            └─dir_jointstation &#61;   &#39;JointStation&#39;   ║
     ╚════════════════════════════════════════════════════╝</code></pre>
 <p><strong>Example:</strong> <code>&#91;dir_stat, dir_tsAIN, dir_molchan, dir_jointstation&#93; &#61; mkdir_default&#40;fullfile&#40;pwd,&#39;output_var&#39;&#41;&#41;</code></p>
+</div>
+
+
+
+#### Input/Output Directory Selection (`dirselectassign`)
+
+<div class="markdown"><p><code>dirselectassign&#40;var_names...&#41;</code>  prompt user to select directories in a dialog box, and assigned the  selected path to workspace with default variable name. If a variable with the same name as the default name has already in the workspace, its assignment will be ignored &#40;i.e. its dialog box won&#39;t pop out&#41;. This is a tool for convenience. You can always assign directories  explicitly to variable with any name you like.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><p>Four windows will pop out one by one allowing you to assign directories to variables  <code>dir_stat</code>, <code>dir_tsAIN</code>, <code>dir_molchan</code>, <code>dir_jointstation</code>: </p>
+<pre><code class="language-matlab">dirselectassign&#40;&#39;dir_stat&#39;,&#39;dir_tsAIN&#39;,&#39;dir_molchan&#39;,&#39;dir_jointstation&#39;&#41;;</code></pre>
+<p>&#40;Read the printed message in the Command Window&#41;</p>
+</li>
+</ul>
+<ul>
+<li><p>Total 7 windows will pop out one by one allowing you to assign directories to the variables with default names <code>dir_stat</code>, <code>dir_tsAIN</code> , <code>dir_molchan</code>, <code>dir_jointstation</code>, <code>dir_data</code>, <code>dir_catalog</code>, <code>dir_toolbox</code>:</p>
+<pre><code class="language-matlab">dirselectassign&#40;&#41;;</code></pre>
+<p>&#40;Read the printed message in the Command Window&#41;</p>
+</li>
+</ul>
 </div>

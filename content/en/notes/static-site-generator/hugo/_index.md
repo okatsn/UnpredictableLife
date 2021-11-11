@@ -291,6 +291,31 @@ Open the `config.toml` of the `docsy-example`, and
   - simply replace the `featured-background.jpg` in `\content\en` and `\content\en\about` by a picture you like 
   > No need to compress the picture! The assets will be automatically generated in `\resources\_gen\images` and `\resources\_gen\images\about`
 
+- LaTeX math support (see [Diagrams and Formulae](https://www.docsy.dev/docs/adding-content/diagrams-and-formulae/))
+  ```
+  # enable display of chemical equations and physical units via mhchem extension
+  [params.katex.mhchem]
+  enable = true
+  
+  # this allows inline math with $x$ syntax
+  [[params.katex.options.delimiters]]
+    left = "$"
+    right = "$"
+    display = false
+    
+  [[params.katex.options.delimiters]]
+    left = "$$"
+    right = "$$"
+    display = true
+  ```
+  
+- render the html codes in your markdown file (conventionally you should use [shortcodes](https://gohugo.io/content-management/shortcodes/)).
+  ```
+  [markup]
+    [markup.goldmark]
+      [markup.goldmark.renderer]
+        unsafe = true
+  ```
 #### Menu and Directory structure
 https://www.docsy.dev/docs/adding-content/navigation/
 
