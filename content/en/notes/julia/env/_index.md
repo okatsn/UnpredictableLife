@@ -92,12 +92,12 @@ How to use a homemade module:
 
 
 - `(@v1.5) pkg> add PackageExample`: add a package under JuliaLang
-- `(@v1.5) pkg> add https://github.com/CGRG-lab/GeneralTools.jl.git`: add a package on github
+- `(@v1.5) pkg> add https://github.com/YOURNAME/MyPackage.jl.git`: add a package on github
 - `(@v1.5) pkg> add D:\GoogleDrive\1Programming\julia\MyPackage`: add a package locally. 
-- `(@v1.5) pkg> add https://github.com/CGRG-lab/GeneralTools.jl.git` and then `(@v1.5) pkg> dev GeneralTools`: clone the package to the local `C:\Users\HSI\.julia\dev\GeneralTools`
+- `(@v1.5) pkg> add https://github.com/YOURNAME/MyPackage.jl.git` and then `(@v1.5) pkg> dev MyPackage`: clone the package to the local `C:\Users\HSI\.julia\dev\MyPackage`
   - Every time you `using` this package under the environment where you `dev`, it is linked to the local state of the corresponding folder. 
-  - To cancel this dependency on local folder/files, use `(@v1.5) pkg> free GeneralTools` which stops using the local clone and use a registered version instead).
-  - If it is not registered, `ERROR: unable to free unregistered package GeneralTools [e6213164]` will occur. In this case, just `pkg> rm GeneralTools` and `pkg> add https://github.com/CGRG-lab/GeneralTools.jl.git` again.
+  - To cancel this dependency on local folder/files, use `(@v1.5) pkg> free MyPackage` which stops using the local clone and use a registered version instead).
+  - If it is not registered, `ERROR: unable to free unregistered package MyPackage [e6213164]` will occur. In this case, just `pkg> rm MyPackage` and `pkg> add https://github.com/YOURNAME/MyPackage.jl.git` again.
 
 
 
@@ -131,10 +131,10 @@ With `PkgTemplates` we can create and initiate a git repository the same time:
 ```julia
 t = Template(;
        user = "okatsn", #  GitHub (or other code hosting service) username
-       authors = "Tsung-Hsi Wu <okatsn@gmail.com>",
+       authors = "Tsung-Hsi Wu <YOUREMAIL@for.example.gmail.com>",
        host = "github.com",
        julia = v"1.6.1", # Minimum allowed Julia version.
-       plugins = [Git(;manifest = false, name = "okatsn", email = "okatsn@gmail.com")],
+       plugins = [Git(;manifest = false, name = "YourGitHubAccountName", email = "YOUREMAIL@for.example.gmail.com")],
        );
 t("MyPackage");
 ```
@@ -150,7 +150,7 @@ The information is recorded in the generated `Project.toml` like this:
 ```julia
 name = "MyPackage"
 uuid = "cc16d58c-5ce7-42a0-8156-698284945e42"
-authors = ["Tsung-Hsi Wu <okatsn@gmail.com>"]
+authors = ["Tsung-Hsi Wu <YOUREMAIL@for.example.gmail.com>"]
 version = "0.1.0"
 
 [compat]
@@ -202,8 +202,8 @@ end
 By `include("MyPackage.jl")`, the function `myjoinpath` and the variable `filesep` is ready for use.
 
 Use an unregistered package:
- - `pkg> add https://github.com/CGRG-lab/GeneralTools.jl.git`
- - `julia> using GeneralTools`
+ - `pkg> add https://github.com/YOURNAME/MyPackage.jl.git`
+ - `julia> using MyPackage`
 
 #### Best Practice
 - Put functions under `src` and its sub-folders.
@@ -211,7 +211,7 @@ Use an unregistered package:
 - Import (`using`) packages in `MyPackage.jl` that is used by the functions in `src`. 
 - Choose either way to start a new environment
   - way 1: `julia> cd("MyPackage")` and `pkg> activate .`.
-  - way 2: `pkg> activate GeneralTools`
+  - way 2: `pkg> activate MyPackage`
 - Add packages that are used in `MyPackage.jl`
   - e.g. `(MyPackage) pkg> add Markdown`
   - If you didn't do this, `Project.toml` will have no information about dependencies, and consequently someone else will fail when trying to `using Markdown; myjoinpath();`. 
@@ -241,16 +241,16 @@ With the help of [Revise.jl](https://timholy.github.io/Revise.jl/stable/), any l
 Of course, you have to `(@v1.6) pkg> add Revise` first.
 Second, add your package in a developer mode: 
 ```
-(whatever) pkg> dev D:/GoogleDrive/1Programming/julia/GeneralTools.jl 
+(whatever) pkg> dev D:/GoogleDrive/1Programming/julia/MyPackage.jl 
 ```
 and in julia repl, 
 ```
 julia > using Revise
-julia > using GeneralTools
+julia > using MyPackage
 ```
-After that, **Revise.jl** starts tracking the package `GeneralTools`, and whatever change you made under the package directory (e.g. `D:/GoogleDrive/1Programming/julia/GeneralTools.jl`) responses immediately.
+After that, **Revise.jl** starts tracking the package `MyPackage`, and whatever change you made under the package directory (e.g. `D:/GoogleDrive/1Programming/julia/MyPackage.jl`) responses immediately.
 
-Last but not least, you have to `pkg> free GeneralTools` after the development session completes. 
+Last but not least, you have to `pkg> free MyPackage` after the development session completes. 
 
 > **💡 Kill the terminal won't free the package**, which means you don't have to `(whatever) pkg> dev YourPackage` every time you are developing the package under the environment `whatever`. Also, remember to `free` it while you're not developing the package; otherwise, the project environment (i.e. `whatever` as an example) keeps sticking to the local path.
 
@@ -311,7 +311,7 @@ function targetlist(targetexpr::Regex, dir2walk::AbstractString)
 end
 
 using Test
-using GeneralTools
+using MyPackage
 	
 println("Running tests:")
 
