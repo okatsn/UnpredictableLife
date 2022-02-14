@@ -276,7 +276,6 @@ end
 #### `Runtests.jl`
 Write your `test/runtest.jl`:
 ```
-using MyPackage
 using Test # or maybe Base.Test
 
 # script in the test, for example
@@ -312,7 +311,6 @@ end
 
 using Test
 using MyPackage
-	
 println("Running tests:")
 
 (testfiles, allnames) = targetlist(r"^(?!runtests).*(\.jl)$", "./");

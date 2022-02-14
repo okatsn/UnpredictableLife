@@ -201,6 +201,7 @@ For example, `\bibliographystyle{abbrvnat}` makes the first name of an author yo
 #### Resources
 - http://merkel.texture.rocks/Latex/natbib.php?lang=en
 - https://www.itread01.com/content/1544600046.html
+- https://blog.csdn.net/GeneralLi95/article/details/78708081
 
 ### Others
 #### Without BibTeX
