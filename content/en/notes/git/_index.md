@@ -85,4 +85,4 @@ git pull --rebase # solve the conflicts using `rebase`
 - `switch`: "checking out a branch to work on advancing its history"
 - `resotre`: "checking out paths out of the index and/or a tree-ish to work on advancing the current history"
 
-For more details, see [this simple tutorial](https://bluecast.tech/blog/git-switch-branch/) and [this thread](https://stackoverflow.com/questions/57265785/whats-the-difference-between-git-switch-and-git-checkout-branch).
+For more details, see [Tutorial: git-switch-branch](https://bluecast.tech/blog/git-switch-branch/), [brief reply in stackoverflow](https://stackoverflow.com/questions/1783405/how-do-i-check-out-a-remote-git-branch); for further readings, see [this thread](https://stackoverflow.com/questions/57265785/whats-the-difference-between-git-switch-and-git-checkout-branch).
