@@ -30,6 +30,26 @@ weight: 2
 ```
 produce 
 ![](item_HelloWorld.png)
+
+
+[Set the itemize bullet character](https://tex.stackexchange.com/questions/36443/how-to-change-the-nested-itemize-bullet-characters)
+```latex
+\documentclass{article}
+\usepackage{enumitem}
+
+\begin{document}
+\begin{itemize} 
+\item one \dots{}
+     \begin{itemize}[label=$\star$]
+        \item Language Models
+        \item Vector Space Models
+     \end{itemize}
+\item two \dots{}
+\item three \dots{}
+\end{itemize}
+\end{document}
+```
+
 ### Figure
 A simple figure
 ```latex
@@ -72,6 +92,20 @@ F = ma
 \end{equation}
 ```
 ### Table
+[Basic Arguments for figure and table](http://web.mit.edu/molly/Public/rsi2006/figtab.pdf)
+#### Adjust/Fit the table
+[How to adjust a table to fit on page](https://tex.stackexchange.com/questions/121155/how-to-adjust-a-table-to-fit-on-page)
+[Fit a large table in a page (uses `tabularx`, `adjustbox`)](https://stackoverflow.com/questions/48272281/latex-how-to-fit-a-large-table-in-a-page)
+[A complicate multi-column big table fitted to page](https://tex.stackexchange.com/questions/424892/how-can-i-fit-this-table)
+[How to force a table into page width](https://tex.stackexchange.com/questions/10535/how-to-force-a-table-into-page-width)
+[How to fit a table to the width of the page?](https://stackoverflow.com/questions/71322673/how-to-fit-a-table-to-the-width-of-the-page)
+[Fit a table without changing the font size](https://tex.stackexchange.com/questions/245853/fit-a-table-without-changing-the-font-size)
+
+#### Table Position Alignment
+[How to center the table in Latex](https://tex.stackexchange.com/questions/162462/how-to-center-the-table-in-latex)
+[How can I center a too wide table?](https://tex.stackexchange.com/questions/39435/how-can-i-center-a-too-wide-table)
+
+
 ### Hyperlink
 - For using `\href` or `\url`, right after `\documentclass` (e.g. `\documentclass{gji}`) we have to add
   - `\usepackage[urlcolor=blue,citecolor=black,linkcolor=black]{hyperref}` 
