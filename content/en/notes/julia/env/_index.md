@@ -399,3 +399,13 @@ julia> @code_lowered(testinca1(5,2))
 - [Create manifest](https://pkgdocs.julialang.org/v1/toml-files/)
   - [Project or Package environment](https://docs.julialang.org/en/v1/manual/code-loading/)
   - [Creating Package](https://pkgdocs.julialang.org/v1/creating-packages/)
+
+
+
+## Workflow and tips and v1.9
+[Workflow and tips and v1.9](https://docs.google.com/presentation/d/11N28i5zFH_oZ2yyP1sYbd-Z68UmGLgrImW9QtWc7Adg/edit#slide=id.g22d29ffd30b_1_280)
+
+[Julia ASTs](https://docs.julialang.org/en/v1/devdocs/ast/)
+- [The startup.jl of fredrikekre](https://github.com/fredrikekre/.dotfiles/blob/master/.julia/config/startup.jl)
+
+[OhMyREPL](https://kristofferc.github.io/OhMyREPL.jl/latest/installation/#Automatically-start-with-Julia.)
